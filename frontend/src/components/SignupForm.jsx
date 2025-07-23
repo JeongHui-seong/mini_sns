@@ -5,6 +5,9 @@ import { useEffect } from 'react';
 const SignupForm = ({change}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
+
+
+
     }
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;  // 일반적인 이메일 형식
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,}$/; // 4글자 이상, 영어와 숫자 조합
