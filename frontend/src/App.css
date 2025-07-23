@@ -3,6 +3,17 @@
     margin: 0;
 }
 
+@font-face {
+    font-family: 'regular';
+    src: url(./assets/font/Paperlogy-4Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'bold';
+    src: url(./assets/font/Paperlogy-4Bold.ttf) format('truetype');
+}
+
 html, body{
     box-sizing: border-box;
+    font-family: 'regular';
 }
