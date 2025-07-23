@@ -1,0 +1,91 @@
+.login_container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(
+        circle at 20% 80%,
+        #FFAEBE 0%,
+        #FFD1C3 30%,
+        #DBDDFF 66%,
+        #BA78FF 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+.circle{
+    position: absolute;
+}
+
+.circle1{
+    left: 291px;
+    top: 492px;
+}
+.circle2{
+    left: 1167px;
+    top: 143px;
+}
+.circle3{
+    left: 787px;
+    top: 658px;
+}
+.circle4{
+    left: -100px;
+    top: 780px;
+    animation: move_rb 3s infinite alternate;
+}
+.circle5{
+    left: 542px;
+    top: 58px;
+    animation: move_lt 4s infinite alternate;
+}
+.circle6{
+    left: 1572px;
+    top: 728px;
+    animation: move_rb 6s infinite alternate;
+}
+
+@keyframes move_lt {
+    0%{
+        transform: translate(0, 0);
+    }
+    50%{
+        transform: translate(15px, -15px);
+    }
+    100%{
+        transform: translate(0, 0);
+    }
+}
+@keyframes move_rb {
+    0%{
+        transform: translate(0, 0);
+    }
+    50%{
+        transform: translate(-15px, -15px);
+    }
+    100%{
+        transform: translate(0, 0);
+    }
+}
+
+.login_form{
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(1px);
+    padding: 40px;
+    border: 1px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 32px;
+}
+
+.lbl_email{
+    display: block;
+    width: 100%;
+}
+
+.pw_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
