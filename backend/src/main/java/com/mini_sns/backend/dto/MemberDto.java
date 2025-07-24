@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class MemberDto {
   private String email;
-  private String username;
+  private String nickname;
   private String password;
 
   // DTO -> Entity 변환 메서드
@@ -18,7 +18,7 @@ public class MemberDto {
   public Member toEntity() {
     Member member = new Member();
     member.setEmail(this.email);
-    member.setUsername(this.username);
+    member.setUsername(this.nickname);
     member.setPassword(this.password);
     return member;
   }

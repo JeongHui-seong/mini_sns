@@ -10,6 +10,8 @@ import com.mini_sns.backend.dto.MemberDto;
 import com.mini_sns.backend.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/member")
@@ -22,4 +24,11 @@ public class MemberController {
     memberService.join(dto);
     return ResponseEntity.ok("회원가입이 완료되었습니다.");
   }
+
+  @GetMapping("/check")
+  public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+    boolean exists = memberService.emailExists(email);
+    return ResponseEntity.ok(exists);
+  }
+
 }
