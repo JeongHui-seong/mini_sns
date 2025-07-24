@@ -46,6 +46,6 @@ public class BoardController {
                              @RequestParam(required = false) byte[] imageData) {
                             //  Principal principal) {
         return boardService.createBoard(content, imageData, null);
-    }
+    } 
     
 }

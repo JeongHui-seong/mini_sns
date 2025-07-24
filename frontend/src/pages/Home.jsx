@@ -99,6 +99,7 @@ const Home = () => {
       <main className="home-container">
         <div className="feed">
           {/* 오늘의 기분 입력창 */}
+        </div>
         <div
         className="today-mood-box"
         onClick={() => alert("글쓰기 창을 여세요!")}
