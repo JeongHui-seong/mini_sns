@@ -74,7 +74,7 @@ const SignupForm = ({change}) => {
                 <input value={passwordValidation.value} onChange={passwordValidation.onChange} type="password" id='password' name='password' required className={LoginCss.inp} />
                 {!passwordValidation.isValid && <p className={LoginCss.val_error}>영어와 숫자를 조합해 4글자 이상 써주세요.</p>}
                 <label htmlFor="password" className={LoginCss.lbl}>비밀번호 확인</label>
-                <input value={passwordConfirmValidation.value} onChange={passwordConfirmValidation.onChange} type="password" id='password' name='password' required className={LoginCss.inp} />
+                <input value={passwordConfirmValidation.value} onChange={passwordConfirmValidation.onChange} type="password" id='passwordcheck' name='password' required className={LoginCss.inp} />
                 {!passwordConfirmValidation.isValid && <p className={LoginCss.val_error}>작성하신 비밀번호와 일치하지 않습니다.</p>}
                 <label htmlFor="nickname" className={LoginCss.lbl}>닉네임</label>
                 <input value={nicknameValidation.value} onChange={nicknameValidation.onChange} type="text" id='nickname' name='nickname' required className={LoginCss.inp} />

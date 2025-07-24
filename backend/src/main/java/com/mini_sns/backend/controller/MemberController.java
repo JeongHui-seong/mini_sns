@@ -10,12 +10,15 @@ import com.mini_sns.backend.dto.MemberDto;
 import com.mini_sns.backend.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class MemberController {
   private final MemberService memberService;
 
