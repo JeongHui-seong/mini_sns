@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import LoginCss from '../pages/login.module.css';
 import circle1 from '../assets/img/logincircle1.webp';
 import circle2 from '../assets/img/logincircle2.webp';
