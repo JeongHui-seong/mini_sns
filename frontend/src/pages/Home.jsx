@@ -129,7 +129,6 @@ const Home = () => {
               handleCommentSubmit={handleCommentSubmit}
             />
           ))}
-        </div>
       </main>
     </div>
   );
