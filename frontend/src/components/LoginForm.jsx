@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import LoginCss from '../pages/login.module.css';
 import circle1 from '../assets/img/logincircle1.webp';
 import circle2 from '../assets/img/logincircle2.webp';
@@ -11,8 +13,19 @@ import kakaoIcon from '../assets/img/kakaoicon.webp';
 export const circles = [circle1, circle2, circle3, circle4, circle5, circle6];
 
 const LoginForm = ({ change }) => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+
+        if (email === 'test@example.com' && password === '1234') {
+            navigate('/home'); 
+        } else {
+            alert('로그인 실패. 이메일 또는 비밀번호를 확인하세요.');
+        }
     }
 
     return (
@@ -21,10 +34,29 @@ const LoginForm = ({ change }) => {
                 <h2 className={LoginCss.title}>환영합니다</h2>
                 <p className={LoginCss.subtitle}>로그인 후 이용 가능합니다.</p>
                 <label htmlFor="email" className={LoginCss.lbl_email}>이메일</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    className={LoginCss.inp}
+                    placeholder="example@example.com"
+                    value={email}                   // 상태 바인딩
+                    onChange={(e) => setEmail(e.target.value)}  // 입력 변경 시 상태 업데이트
+                    />
                 <input type="email" id="email" name="email" required className={LoginCss.inp} placeholder='example@example.com' />
                 <div className={LoginCss.pw_container}><label htmlFor="password">비밀번호</label>
                     <p className={LoginCss.go_find_pw}>비밀번호 찾기</p>
                 </div>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    className={LoginCss.inp}
+                    value={password}                // 상태 바인딩
+                    onChange={(e) => setPassword(e.target.value)} // 입력 변경 시 상태 업데이트
+                    />
                 <input type="password" id="password" name="password" required className={LoginCss.inp} />
                 <button type="submit" className={`${LoginCss.login_btn} ${LoginCss.btn}`}>로그인</button>
             </form>
