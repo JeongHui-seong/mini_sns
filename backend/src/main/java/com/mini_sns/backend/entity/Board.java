@@ -35,7 +35,7 @@ public class Board {
     private Long boardId;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = true)    // 테스트용
     private Member writer;
 
     @Column(length = 8000)

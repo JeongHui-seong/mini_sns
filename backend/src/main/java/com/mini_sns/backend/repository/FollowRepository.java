@@ -1,18 +1,18 @@
-package com.mini_sns.backend.repository;
+// package com.mini_sns.backend.repository;
 
-import java.util.List;
+// import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.mini_sns.backend.entity.Follow;
-import com.mini_sns.backend.entity.FollowId;
+// import com.mini_sns.backend.entity.Follow;
+// import com.mini_sns.backend.entity.FollowId;
 
-public interface FollowRepository extends JpaRepository<Follow, FollowId> {
+// public interface FollowRepository extends JpaRepository<Follow, FollowId> {
 
-    List<Follow> findByFollower_MemberId(Long followerId);
+//     List<Follow> findByFollower_MemberId(Long followerId);
 
-    boolean exiexistsByFollower_MemberIdAndFollowing_MemberId(Long followerId, Long followingId);
+//     boolean exiexistsByFollower_MemberIdAndFollowing_MemberId(Long followerId, Long followingId);
 
-    void deledeleteByFollower_MemberIdAndFollowing_MemberId(Long followerId, Long followingId);
+//     void deledeleteByFollower_MemberIdAndFollowing_MemberId(Long followerId, Long followingId);
 
-}
+// }

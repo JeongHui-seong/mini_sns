@@ -36,14 +36,16 @@ public class BoardService {
     }
 
     // 게시글 작성
-    public void createBoard(String content, byte[] imageData, Member writer) {
+    public Board createBoard(String content, byte[] imageData, Member writer) {
         Board board = new Board();
         board.setContent(content);
         board.setImageData(imageData);
         board.setCreatedAt(LocalDateTime.now());
-        board.setWriter(writer);
+        if (writer != null) {
+            board.setWriter(writer);
+        }
 
-        this.boardRepository.save(board);
+        return this.boardRepository.save(board);
     }
 
     // 게시글 수정
