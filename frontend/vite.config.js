@@ -5,12 +5,13 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: './',
   server: {
     proxy: {
       '/api': {
-        target: 'http://backend:8080',
+        target: 'http://localhost:8080', // 스프링 서버 주소
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''), // 경로에서 /api 제거
+        secure: false,
       },
     },
   },
