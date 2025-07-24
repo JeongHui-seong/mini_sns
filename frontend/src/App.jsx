@@ -6,17 +6,15 @@ import { RouteWrapper } from "./components/RouteWrapper";
 
 const AppContent = () => {
   return (
-    <>
     <Routes>
       <Route path="/" element={<RouteWrapper requireAuth={true}><Home /></RouteWrapper>}></Route>
       <Route path="/login" element={<RouteWrapper requireAuth={false}><Login /></RouteWrapper>}></Route>
+        <Route path="/home" element={<Home />} />
     </Routes>
-    </>
-  )
-}
+  );
+};
 
 function App() {
-
   return (
     <AuthProvider>
       <AppContent />
@@ -24,4 +22,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
