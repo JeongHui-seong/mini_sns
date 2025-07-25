@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaThLarge, FaBell, FaPen } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
+import CommentModal from "../components/CommentModal";
 import "./Home.css";
 
 const loggedInUser = {
@@ -48,6 +49,21 @@ const Home = () => {
   const [posts, setPosts] = useState(filteredPosts);
   const [commentInput, setCommentInput] = useState({});
 
+  // 수정: selectedPostId로 변경
+  const [selectedPostId, setSelectedPostId] = useState(null);
+
+  // 최신 상태의 post 객체를 찾음
+  const selectedPost = posts.find((post) => post.id === selectedPostId);
+
+  // 모달 열 때 post 객체가 아닌 post id만 저장
+  const handleOpenModal = (post) => {
+    setSelectedPostId(post.id);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPostId(null);
+  };
+
   const toggleLike = (id) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -93,41 +109,55 @@ const Home = () => {
         user={loggedInUser}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-      ></Sidebar>
+        hasPosts={posts.length > 0}
+      />
 
-      {/* 가운데 피드 */}
       <main className="home-container">
         <div className="feed">
-          {/* 오늘의 기분 입력창 */}
-          <div 
-              className="today-mood-box" 
-              onClick={() => alert("글쓰기 창을 여세요!")} 
-              role="button"
-              tabIndex={0} 
-              onKeyDown={(e) => {if (e.key === "Enter") alert("글쓰기 창을 여세요!");}}
+          <div
+            className="today-mood-box"
+            onClick={() => alert("글쓰기 창을 여세요!")}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") alert("글쓰기 창을 여세요!");
+            }}
           >
-            {/* <div className="mood-profile-pic"></div> */}
             <input
-                type="text"
-                className="mood-input"
-                placeholder="오늘의 기분은 어떠신가요? 공유해보세요."
-                readOnly
+              type="text"
+              className="mood-input"
+              placeholder="오늘의 기분은 어떠신가요? 공유해보세요."
+              readOnly
             />
             <FaPen className="mood-pen-icon" />
           </div>
-          {/* 게시물 리스트 */}
-          {posts.map((post) => (
-            <Post
-              key={post.id}
-              post={post}
-              toggleLike={toggleLike}
-              commentInput={commentInput}
-              handleCommentChange={handleCommentChange}
-              handleCommentSubmit={handleCommentSubmit}
-            />
-          ))}
+
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                post={post}
+                toggleLike={toggleLike}
+                commentInput={commentInput}
+                handleCommentChange={handleCommentChange}
+                handleCommentSubmit={handleCommentSubmit}
+                openCommentModal={handleOpenModal}
+              />
+            ))
+          ) : (
+            <div className="empty-message">게시물이 없습니다.</div>
+          )}
         </div>
       </main>
+
+      {/* 모달에 toggleLike 함수 넘김 */}
+      {selectedPost && (
+        <CommentModal
+          post={selectedPost}
+          onClose={handleCloseModal}
+          toggleLike={toggleLike}
+        />
+      )}
     </div>
   );
 };

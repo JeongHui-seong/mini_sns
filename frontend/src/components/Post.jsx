@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 
-const Post = ({ post, toggleLike, commentInput, handleCommentChange, handleCommentSubmit }) => {
+const Post = ({
+  post,
+  toggleLike,
+  commentInput,
+  handleCommentChange,
+  handleCommentSubmit,
+  openCommentModal
+}) => {
   const [showFullText, setShowFullText] = useState(false);
   const isLongText = post.text.length > 80;
-  const displayedText = showFullText || !isLongText ? post.text : post.text.slice(0, 80) + "...";
+  const displayedText =
+    showFullText || !isLongText ? post.text : post.text.slice(0, 80) + "...";
 
   return (
     <div className="post-card">
@@ -46,7 +54,13 @@ const Post = ({ post, toggleLike, commentInput, handleCommentChange, handleComme
         )}
       </div>
 
-      <div className="comments-count">댓글 {post.comments.length}개 모두 보기</div>
+      <div
+        className="comments-count"
+        style={{ cursor: "pointer", color: "#555" }}
+        onClick={() => openCommentModal(post)}
+      >
+        댓글 {post.comments.length}개 모두 보기
+      </div>
 
       <div className="comment-section">
         <input

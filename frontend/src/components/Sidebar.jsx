@@ -1,8 +1,8 @@
 import React from "react";
-import "../pages/Home.css"; // 스타일은 별도 파일에 정의해도 좋아요s
+import "../pages/Home.css";
 import { FaThLarge, FaBell } from "react-icons/fa";
 
-const Sidebar = ({ user, activeTab, setActiveTab }) => {
+const Sidebar = ({ user, activeTab, setActiveTab, hasPosts }) => {
   return (
     <div className="mypage-card">
       <div className="profile-section">
@@ -29,7 +29,6 @@ const Sidebar = ({ user, activeTab, setActiveTab }) => {
           <button
             className={activeTab === "posts" ? "active" : ""}
             onClick={() => setActiveTab("posts")}
-            aria-label="게시물 탭"
           >
             <FaThLarge />
             <span>게시물</span>
@@ -37,7 +36,6 @@ const Sidebar = ({ user, activeTab, setActiveTab }) => {
           <button
             className={activeTab === "notifications" ? "active" : ""}
             onClick={() => setActiveTab("notifications")}
-            aria-label="알림 탭"
           >
             <FaBell />
             <span>알림</span>
