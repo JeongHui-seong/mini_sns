@@ -99,26 +99,22 @@ const Home = () => {
       <main className="home-container">
         <div className="feed">
           {/* 오늘의 기분 입력창 */}
-        </div>
-        <div
-        className="today-mood-box"
-        onClick={() => alert("글쓰기 창을 여세요!")}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-            if (e.key === "Enter") alert("글쓰기 창을 여세요!");
-        }}
-        >
-          <div className="mood-profile-pic" />
-         <input
-            type="text"
-            className="mood-input"
-            placeholder="오늘의 기분은 어떠신가요? 공유해보세요."
-            readOnly
-         />
-         <FaPen className="mood-pen-icon" />
-         </div>
-
+          <div 
+              className="today-mood-box" 
+              onClick={() => alert("글쓰기 창을 여세요!")} 
+              role="button"
+              tabIndex={0} 
+              onKeyDown={(e) => {if (e.key === "Enter") alert("글쓰기 창을 여세요!");}}
+          >
+            {/* <div className="mood-profile-pic"></div> */}
+            <input
+                type="text"
+                className="mood-input"
+                placeholder="오늘의 기분은 어떠신가요? 공유해보세요."
+                readOnly
+            />
+            <FaPen className="mood-pen-icon" />
+          </div>
           {/* 게시물 리스트 */}
           {posts.map((post) => (
             <Post
@@ -130,6 +126,7 @@ const Home = () => {
               handleCommentSubmit={handleCommentSubmit}
             />
           ))}
+        </div>
       </main>
     </div>
   );

@@ -40,16 +40,6 @@ const Post = ({ post, toggleLike, commentInput, handleCommentChange, handleComme
             className="more-button"
             onClick={() => setShowFullText(!showFullText)}
             aria-label="더보기 버튼"
-            style={{
-              background: "none",
-              border: "none",
-              color: "#3897f0",
-              cursor: "pointer",
-              padding: 0,
-              marginLeft: "5px",
-              fontWeight: "600",
-              fontSize: "14px",
-            }}
           >
             {showFullText ? "접기" : "더 보기"}
           </button>
