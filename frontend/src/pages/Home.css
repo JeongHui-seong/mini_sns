@@ -1,0 +1,385 @@
+/* 전체 래퍼 */
+.app-wrapper {
+  display: flex;
+  /* height: 1080px; */
+  width: 100%;
+  margin: 0 auto;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+/* 사이드바 */
+.mypage-card {
+  width: 500px;
+  /* height: 1080px; */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+/* 프로필 섹션 */
+.profile-section {
+  text-align: center;
+  /* margin-bottom: 24px; */
+}
+
+/* 프로필 사진, 이름, 설명, 통계 */
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  margin: 48px auto 20px auto;
+  border-radius: 50%;
+  background-color: #c7a8ff;
+}
+
+/* 프로필 이름 */
+.profile-name {
+  /* margin: 12px 0 6px 0; */
+  font-weight: 700;
+  font-size: 22px;
+  color: #1c1c1c;
+}
+
+/* 프로필 설명 */
+.profile-desc {
+  margin: 12px 0 40px 0;
+  font-size: 14px;
+  color: #666;
+  /* line-height: 1.4; */
+  /* margin-bottom: 30px; */
+}
+
+/* 프로필 통계 */
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 80px;
+}
+
+.profile-stats div {
+  text-align: center;
+}
+
+.profile-stats strong {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+/* 탭 메뉴 */
+.tab-menu {
+  display: flex;
+  /* border-top: 1px solid #ddd; */
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-menu button {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 14px 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.25s ease;
+}
+
+.tab-menu button svg {
+  font-size: 22px;
+}
+
+.tab-menu button.active {
+  color: #555;
+  border-bottom: 3px solid #555;
+  font-weight: 700;
+}
+
+/* 탭 콘텐츠 영역: 게시물 그리드 또는 알림 표시 */
+.tab-content {
+  height: calc(100vh - 580px);
+  overflow-y: auto;
+}
+
+/* 내 게시물 썸네일 그리드 */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  height: 100%;
+}
+
+.post-thumbnail {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #c7a8ff;
+  border-radius: 4px;
+}
+
+/* 알림 탭 자리 */
+.notifications-placeholder {
+  font-size: 16px;
+  color: #999;
+  text-align: center;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 메인 컨텐츠 */
+.home-container {
+  flex-grow: 1;
+  /* height: 1080px; */
+  padding: 40px;
+  overflow-y: auto;
+  /* display: flex; */
+  justify-content: center;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+/* 게시물 피드 영역 (가운데 박스) */
+.feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px; 
+  margin: 0 auto;   
+  width: 100%;
+}
+
+/* 글쓰기란 */
+.today-mood-box {
+  display: flex;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  /* margin: 10px auto 40px auto;  */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  width: 600px;
+  height: 60px;       
+  /* max-width: 500px; */
+  transition: box-shadow 0.2s ease;
+}
+
+/* .mood-profile-pic {
+  width: 34px;
+  height: 34px;
+  background-color:  #c7a8ff;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+} */
+
+.mood-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #444;
+  cursor: pointer;
+}
+
+.today-mood-box:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mood-pen-icon {
+  font-size: 24px;
+  color: #535353;
+}
+
+/* 게시물 카드 */
+.post-card {
+  width: 580px;
+  /* min-width: 470px; */
+  background-color: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 20px;
+  box-sizing: border-box;
+  margin-top: 40px;
+}
+
+.post-header-with-pic {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #262626;
+}
+
+/* 프로필 사진 (포스트 내) */
+.post-profile-pic {
+  width: 40px;
+  height: 40px;
+  background-color: #c7a8ff;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 사용자 이름, 날짜 */
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.post-user-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+
+.post-date {
+  font-size: 13px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.post-image {
+  width: 100%;
+  /* height: 400px; */
+  /* object-fit: cover; */
+  background-color: #f0f0f0;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 15px;
+  font-size: 28px;
+  color: #262626;
+  cursor: pointer;
+}
+
+/* .post-actions span:hover {
+  color: #ed4956;
+} */
+
+/* 좋아요 개수 */
+.like-count {
+  padding: 0 20px;
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+  user-select: none;
+}
+
+/* 게시물 텍스트 (작성자 이름 + 내용) */
+.post-text {
+  font-size: 15px;
+  color: #333;
+  padding: 8px 20px;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.more-button {
+  background: none;
+  border: none;
+  color: #3897f0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* 댓글 개수 텍스트 */
+.comments-count {
+  padding: 0 20px;
+  font-size: 14px;
+  color: #999;
+  cursor: pointer;
+}
+
+/* 댓글 리스트 */
+.comments-list {
+  margin-top: 8px;
+  padding-left: 15px;
+  border-left: 3px solid #eee;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.comment-item {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.comment-item strong {
+  color: #262626;
+}
+
+/* 댓글 입력 영역 */
+.comment-section {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-top: none;
+}
+
+.comment-input {
+  flex-grow: 1;
+  border: none;
+  border-radius: 20px;
+  background-color: #f1f1f1;
+  padding: 8px 20px;
+  font-size: 14px;
+  outline: none;
+}
+
+.comment-button {
+  background: none;
+  border: none;
+  color: #3897f0;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.comment-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 스크롤바 스타일 */
+.sidebar-container::-webkit-scrollbar,
+.home-container::-webkit-scrollbar,
+.comments-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb,
+.home-container::-webkit-scrollbar-thumb,
+.comments-list::-webkit-scrollbar-thumb {
+  background-color: rgba(66, 149, 255, 0.4);
+  border-radius: 4px;
+}
+
+/* .comment-section {
+  border-top: none; 
+  padding-top: 0.5rem; 
+} */
