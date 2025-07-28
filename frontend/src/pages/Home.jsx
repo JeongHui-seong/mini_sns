@@ -32,25 +32,30 @@ const allPosts = [
     likeCount: 1,
     text: "ㅋ! 💪",
     comments: [],
-  },
+  }
 ];
 
 const Home = () => {
-  const [user, setUser] = useState(null);
+  
+  const loggedInUser = {
+    // name: "안정민",
+    followerList: ["혜미", "정다은", "혜삔"],
+    followingList: ["혜미", "정다은", "혜삔"],
+    posts: 10
+  };
+
+  const [user, setUser] = useState(loggedInUser);
   const [activeTab, setActiveTab] = useState("posts");
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-  const [posts, setPosts] = useState([]);
+
+  const filteredPosts = allPosts.filter((post) =>
+    user.followingList.includes(post.user)
+  );
+
+  const [posts, setPosts] = useState(filteredPosts);
   const [commentInput, setCommentInput] = useState({});
   const [selectedPostId, setSelectedPostId] = useState(null);
 
-  // const loggedInUser = {
-  //   name: "안정민",
-  //   followers: 26,
-  //   following: 26,
-  //   posts: 10,
-  //   followerList: ["혜미", "정다은", "혜삔"],
-  //   followingList: ["혜미", "정다은", "혜삔"],
-  // };
 
   const selectedPost = posts.find((post) => post.id === selectedPostId);
 
@@ -137,9 +142,9 @@ const Home = () => {
       .then((response) => {
         setUser({
           name: response.data.nickname,
-          followers: response.data.followers || 0,
-          following: response.data.following || 0,
-          posts: response.data.posts || 0
+          followersList: [],
+          followingList: [],
+          posts: 0
         });
       })
       .catch((error) => {

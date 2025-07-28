@@ -36,6 +36,5 @@ public class MemberController {
     MemberDto memberDto = memberService.getCurrentMember();
     return ResponseEntity.ok(memberDto);
   }
-  
 
 }
