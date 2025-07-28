@@ -35,6 +35,7 @@ public class MemberService {
   }
 
   public boolean emailExists(String email) {
+    System.out.println("[DEBUG] emailExists() 호출됨, email = " + email);
     return memberRepository.existsByEmail(email);
   }
 

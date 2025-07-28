@@ -2,6 +2,7 @@ package com.mini_sns.backend.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -44,7 +45,7 @@ public class Member {
     @Column(length = 300)
     private String bio;
 
-    @CreatedDate
-    @Column(updatable = false)
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 }

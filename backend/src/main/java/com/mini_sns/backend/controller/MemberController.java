@@ -13,9 +13,12 @@ import com.mini_sns.backend.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 @RestController
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class MemberController {
   private final MemberService memberService;
 
@@ -26,11 +29,11 @@ public class MemberController {
   }
 
   @GetMapping("/check")
-  public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+  public ResponseEntity<Boolean> checkEmail(@RequestParam("email") String email) {
     boolean exists = memberService.emailExists(email);
     return ResponseEntity.ok(exists);
   }
-  
+
   @GetMapping("/me")
   public ResponseEntity<MemberDto> getCurrentMember() {
     MemberDto memberDto = memberService.getCurrentMember();

@@ -1,8 +1,7 @@
 import LoginCss from '../pages/login.module.css';
 import { inputValidation } from '../hooks/inputValidation';
 import { useEffect } from 'react';
-
-import axios from 'axios';
+import { signupUser, checkEmailDuplication } from '../api/memberApi';
 
 const SignupForm = ({change}) => {
     const handleSubmit = async (e) => {
@@ -11,13 +10,13 @@ const SignupForm = ({change}) => {
         // 연결
         try {
             // 백엔드에 회원가입 요청 보내기
-            const response = await axios.post('/api/member/join', {
+            const message = await signupUser({
                 email: emailValidation.value,
                 password: passwordValidation.value,
                 nickname: nicknameValidation.value
             });
             
-            alert(response.data); // "회원가입이 완료되었습니다."
+            alert(message); // "회원가입이 완료되었습니다."
             change("login");      // 로그인 창으로 전환
         } catch (error) {
             console.error('회원가입 실패:', error.response?.data || error.message);
@@ -27,10 +26,10 @@ const SignupForm = ({change}) => {
 
     const checkEmail = async () => {
         try {
-            const res = await axios.get(`/api/member/check?email=${emailValidation.value}`);
-            console.log("중복확인 응답값:", res.data);
+            const isDuplicated = await checkEmailDuplication(emailValidation.value);
+            console.log("중복확인 응답값:", isDuplicated);
 
-            if (res.data === true) {
+            if (isDuplicated) {
                 alert('이미 가입된 이메일 입니다.');
             } else{
                 alert('사용 가능한 이메일 입니다.');
@@ -74,7 +73,7 @@ const SignupForm = ({change}) => {
                 <input value={passwordValidation.value} onChange={passwordValidation.onChange} type="password" id='password' name='password' required className={LoginCss.inp} />
                 {!passwordValidation.isValid && <p className={LoginCss.val_error}>영어와 숫자를 조합해 4글자 이상 써주세요.</p>}
                 <label htmlFor="password" className={LoginCss.lbl}>비밀번호 확인</label>
-                <input value={passwordConfirmValidation.value} onChange={passwordConfirmValidation.onChange} type="password" id='password' name='password' required className={LoginCss.inp} />
+                <input value={passwordConfirmValidation.value} onChange={passwordConfirmValidation.onChange} type="password" id='passwordcheck' name='password' required className={LoginCss.inp} />
                 {!passwordConfirmValidation.isValid && <p className={LoginCss.val_error}>작성하신 비밀번호와 일치하지 않습니다.</p>}
                 <label htmlFor="nickname" className={LoginCss.lbl}>닉네임</label>
                 <input value={nicknameValidation.value} onChange={nicknameValidation.onChange} type="text" id='nickname' name='nickname' required className={LoginCss.inp} />
