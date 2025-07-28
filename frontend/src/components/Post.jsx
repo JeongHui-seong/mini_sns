@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 
-const Post = ({ post, toggleLike, commentInput, handleCommentChange, handleCommentSubmit }) => {
+const Post = ({
+  post,
+  toggleLike,
+  commentInput,
+  handleCommentChange,
+  handleCommentSubmit,
+  openCommentModal
+}) => {
   const [showFullText, setShowFullText] = useState(false);
   const isLongText = post.text.length > 80;
-  const displayedText = showFullText || !isLongText ? post.text : post.text.slice(0, 80) + "...";
+  const displayedText =
+    showFullText || !isLongText ? post.text : post.text.slice(0, 80) + "...";
 
   return (
     <div className="post-card">
@@ -15,6 +23,7 @@ const Post = ({ post, toggleLike, commentInput, handleCommentChange, handleComme
           <span className="post-date">{post.date}</span>
         </div>
       </div>
+
 
       <img src={post.img} alt="게시물 이미지" className="post-image" />
 
@@ -27,7 +36,7 @@ const Post = ({ post, toggleLike, commentInput, handleCommentChange, handleComme
           {post.liked ? <FaHeart color="red" /> : <FaRegHeart color="black" />}
         </span>
         <span style={{ cursor: "pointer", marginLeft: "10px" }} aria-label="댓글 버튼">
-          <FaRegComment />
+          <FaRegComment onClick={() => openCommentModal(post)} />
         </span>
       </div>
 
@@ -46,7 +55,13 @@ const Post = ({ post, toggleLike, commentInput, handleCommentChange, handleComme
         )}
       </div>
 
-      <div className="comments-count">댓글 {post.comments.length}개 모두 보기</div>
+      <div
+        className="comments-count"
+        style={{ cursor: "pointer", color: "#555" }}
+        onClick={() => openCommentModal(post)}
+      >
+        댓글 {post.comments.length}개 모두 보기
+      </div>
 
       <div className="comment-section">
         <input

@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import { FaThLarge, FaBell, FaPen } from "react-icons/fa";
+// Home.jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FaPen } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
+import CommentModal from "../components/CommentModal";
+import NewPostModal from "../components/NewPostModal";
 import "./Home.css";
-
-const loggedInUser = {
-  name: "안정민",
-  followers: 26,
-  following: 26,
-  posts: 10,
-  followerList: ["혜미", "정다은", "혜삔"],
-  followingList: ["혜미", "정다은", "혜삔"],
-};
 
 const allPosts = [
   {
@@ -37,16 +32,40 @@ const allPosts = [
     likeCount: 1,
     text: "ㅋ! 💪",
     comments: [],
-  },
+  }
 ];
 
 const Home = () => {
+  
+  const loggedInUser = {
+    // name: "안정민",
+    followerList: ["혜미", "정다은", "혜삔"],
+    followingList: ["혜미", "정다은", "혜삔"],
+    posts: 10
+  };
+
+  const [user, setUser] = useState(loggedInUser);
   const [activeTab, setActiveTab] = useState("posts");
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+
   const filteredPosts = allPosts.filter((post) =>
-    loggedInUser.followingList.includes(post.user)
+    user.followingList.includes(post.user)
   );
+
   const [posts, setPosts] = useState(filteredPosts);
   const [commentInput, setCommentInput] = useState({});
+  const [selectedPostId, setSelectedPostId] = useState(null);
+
+
+  const selectedPost = posts.find((post) => post.id === selectedPostId);
+
+  const handleOpenModal = (post) => {
+    setSelectedPostId(post.id);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPostId(null);
+  };
 
   const toggleLike = (id) => {
     setPosts((prevPosts) =>
@@ -68,7 +87,7 @@ const Home = () => {
 
   const handleCommentSubmit = (postId) => {
     const input = commentInput[postId]?.trim();
-    if (!input) return;
+    if (!input || !user) return;
 
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -77,57 +96,125 @@ const Home = () => {
               ...post,
               comments: [
                 ...post.comments,
-                { id: Date.now(), user: loggedInUser.name, text: input },
+                { id: Date.now(), user: user.name, text: input },
               ],
             }
           : post
       )
     );
-
     setCommentInput((prev) => ({ ...prev, [postId]: "" }));
   };
+
+  const handlePostSubmit = ({ text, file }) => {
+    if (!user) return;
+
+    const newPost = {
+      id: Date.now(),
+      user: user.name,
+      date: new Date().toLocaleString("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      }),
+      img: file ? URL.createObjectURL(file) : "",
+      liked: false,
+      likeCount: 0,
+      text,
+      comments: [],
+    };
+    setPosts((prev) => [newPost, ...prev]);
+  };
+
+  useEffect(() => {
+    axios.get("/api/board")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("게시물 로드 실패:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get("/api/member/me")
+      .then((response) => {
+        setUser({
+          name: response.data.nickname,
+          followersList: [],
+          followingList: [],
+          posts: 0
+        });
+      })
+      .catch((error) => {
+        console.error("사용자 정보 로드 실패:", error);
+      });
+  }, []);
 
   return (
     <div className="app-wrapper">
       <Sidebar
-        user={loggedInUser}
+        user={user}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-      ></Sidebar>
+      />
 
-      {/* 가운데 피드 */}
       <main className="home-container">
         <div className="feed">
-          {/* 오늘의 기분 입력창 */}
-          <div 
-              className="today-mood-box" 
-              onClick={() => alert("글쓰기 창을 여세요!")} 
-              role="button"
-              tabIndex={0} 
-              onKeyDown={(e) => {if (e.key === "Enter") alert("글쓰기 창을 여세요!");}}
+          <div
+            className="today-mood-box"
+            onClick={() => setIsPostModalOpen(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") setIsPostModalOpen(true);
+            }}
           >
-            {/* <div className="mood-profile-pic"></div> */}
             <input
-                type="text"
-                className="mood-input"
-                placeholder="오늘의 기분은 어떠신가요? 공유해보세요."
-                readOnly
+              type="text"
+              className="mood-input"
+              placeholder="오늘의 기분은 어떠신가요? 공유해보세요."
+              readOnly
             />
             <FaPen className="mood-pen-icon" />
           </div>
-          {/* 게시물 리스트 */}
-          {posts.map((post) => (
-            <Post
-              key={post.id}
-              post={post}
-              toggleLike={toggleLike}
-              commentInput={commentInput}
-              handleCommentChange={handleCommentChange}
-              handleCommentSubmit={handleCommentSubmit}
-            />
-          ))}
+
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                post={post}
+                toggleLike={toggleLike}
+                commentInput={commentInput}
+                handleCommentChange={handleCommentChange}
+                handleCommentSubmit={handleCommentSubmit}
+                openCommentModal={handleOpenModal}
+              />
+            ))
+          ) : (
+            <div className="empty-message">게시물이 없습니다.</div>
+          )}
         </div>
       </main>
+
+      {selectedPost && (
+        <CommentModal
+          post={selectedPost}
+          onClose={handleCloseModal}
+          toggleLike={toggleLike}
+          commentInput={commentInput}
+          handleCommentChange={handleCommentChange}
+          handleCommentSubmit={handleCommentSubmit}
+        />
+      )}
+
+      {isPostModalOpen && (
+        <NewPostModal
+          onClose={() => setIsPostModalOpen(false)}
+          onSubmit={handlePostSubmit}
+        />
+      )}
     </div>
   );
 };
