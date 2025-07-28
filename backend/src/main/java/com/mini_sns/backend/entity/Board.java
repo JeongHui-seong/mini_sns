@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +30,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor // @Builder 있을땐 이것도 같이 써줘야됨
+@EntityListeners(AuditingEntityListener.class)
 public class Board {
 
     @Id
@@ -35,7 +38,7 @@ public class Board {
     private Long boardId;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = true)    // 테스트용
+    @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
 
     @Column(length = 8000)
