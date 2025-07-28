@@ -27,6 +27,13 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        // 🔍 디버그용 변수
+        String requestPath = request.getRequestURI();
+        String requestToken = null;
+
+        // 🔍 디버그 로그 출력
+        System.out.println("[JWT FILTER] Incoming Path: " + requestPath);
+
         String path = request.getRequestURI();
 
         // permitAll 경로는 JWT 검사 X

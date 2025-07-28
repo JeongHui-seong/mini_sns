@@ -29,7 +29,7 @@ public class MemberController {
   }
 
   @GetMapping("/check")
-  public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+  public ResponseEntity<Boolean> checkEmail(@RequestParam("email") String email) {
     boolean exists = memberService.emailExists(email);
     return ResponseEntity.ok(exists);
   }
