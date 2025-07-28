@@ -8,32 +8,32 @@ import CommentModal from "../components/CommentModal";
 import NewPostModal from "../components/NewPostModal";
 import "./Home.css";
 
-// const allPosts = [
-//   {
-//     id: 1,
-//     user: "혜미",
-//     date: "2025년 7월 21일 8시 10분",
-//     img: "/src/assets/img/KakaoTalk_20250720_235020213.jpg",
-//     liked: true,
-//     likeCount: 2195,
-//     text:
-//       "#버거킹(Burger King)이 닌자를 위한 버거를 제조하기 위해 주간 소년 점프에 연재된 닌자 무협 만화 #나루토(NARUTO)와 협업해 나루토 킹 주니어 밀을 일부 아시아 지역에 출시했습니다....",
-//     comments: [
-//       { id: 1, user: "안정민", text: "정말 멋진 협업이네요!" },
-//       { id: 2, user: "혜삔", text: "맛있어 보여요~" },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     user: "혜삔",
-//     date: "2025년 7월 20일 10시 15분",
-//     img: "/src/assets/img/KakaoTalk_20250720_235014657.jpg",
-//     liked: false,
-//     likeCount: 1,
-//     text: "ㅋ! 💪",
-//     comments: [],
-//   },
-// ];
+const allPosts = [
+  {
+    id: 1,
+    user: "혜미",
+    date: "2025년 7월 21일 8시 10분",
+    img: "/src/assets/img/KakaoTalk_20250720_235020213.jpg",
+    liked: true,
+    likeCount: 2195,
+    text:
+      "#버거킹(Burger King)이 닌자를 위한 버거를 제조하기 위해 주간 소년 점프에 연재된 닌자 무협 만화 #나루토(NARUTO)와 협업해 나루토 킹 주니어 밀을 일부 아시아 지역에 출시했습니다....",
+    comments: [
+      { id: 1, user: "안정민", text: "정말 멋진 협업이네요!" },
+      { id: 2, user: "혜삔", text: "맛있어 보여요~" },
+    ],
+  },
+  {
+    id: 2,
+    user: "혜삔",
+    date: "2025년 7월 20일 10시 15분",
+    img: "/src/assets/img/KakaoTalk_20250720_235014657.jpg",
+    liked: false,
+    likeCount: 1,
+    text: "ㅋ! 💪",
+    comments: [],
+  },
+];
 
 const Home = () => {
   const [user, setUser] = useState(null);
