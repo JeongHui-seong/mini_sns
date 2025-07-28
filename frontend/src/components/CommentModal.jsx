@@ -2,7 +2,7 @@ import React from "react";
 import "./CommentModal.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-const CommentModal = ({ post, onClose, toggleLike }) => {
+const CommentModal = ({ post, onClose, toggleLike, commentInput, handleCommentChange, handleCommentSubmit}) => {
   if (!post) return null;
 
   return (
@@ -60,8 +60,18 @@ const CommentModal = ({ post, onClose, toggleLike }) => {
           </div>
 
           <div className="modal-comment-input">
-            <input type="text" placeholder="댓글 달기..." />
-            <button>게시</button>
+          <input
+            type="text"
+            placeholder="댓글 달기..."
+            value={commentInput[post.id] || ""}
+            onChange={(e) => handleCommentChange(post.id, e.target.value)}
+          />
+          <button
+            onClick={() => handleCommentSubmit(post.id)}
+            disabled={!commentInput[post.id]?.trim()}
+          >
+            게시
+          </button>
           </div>
         </div>
       </div>

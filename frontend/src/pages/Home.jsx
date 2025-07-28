@@ -1,8 +1,10 @@
+// Home.jsx
 import React, { useState } from "react";
-import { FaThLarge, FaBell, FaPen } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
 import CommentModal from "../components/CommentModal";
+import NewPostModal from "../components/NewPostModal";
 import "./Home.css";
 
 const loggedInUser = {
@@ -43,19 +45,16 @@ const allPosts = [
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("posts");
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+
   const filteredPosts = allPosts.filter((post) =>
     loggedInUser.followingList.includes(post.user)
   );
   const [posts, setPosts] = useState(filteredPosts);
   const [commentInput, setCommentInput] = useState({});
-
-  // 수정: selectedPostId로 변경
   const [selectedPostId, setSelectedPostId] = useState(null);
-
-  // 최신 상태의 post 객체를 찾음
   const selectedPost = posts.find((post) => post.id === selectedPostId);
 
-  // 모달 열 때 post 객체가 아닌 post id만 저장
   const handleOpenModal = (post) => {
     setSelectedPostId(post.id);
   };
@@ -99,8 +98,27 @@ const Home = () => {
           : post
       )
     );
-
     setCommentInput((prev) => ({ ...prev, [postId]: "" }));
+  };
+
+  const handlePostSubmit = ({ text, file }) => {
+    const newPost = {
+      id: Date.now(),
+      user: loggedInUser.name,
+      date: new Date().toLocaleString("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      }),
+      img: file ? URL.createObjectURL(file) : "",
+      liked: false,
+      likeCount: 0,
+      text,
+      comments: [],
+    };
+    setPosts((prev) => [newPost, ...prev]);
   };
 
   return (
@@ -116,11 +134,11 @@ const Home = () => {
         <div className="feed">
           <div
             className="today-mood-box"
-            onClick={() => alert("글쓰기 창을 여세요!")}
+            onClick={() => setIsPostModalOpen(true)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
-              if (e.key === "Enter") alert("글쓰기 창을 여세요!");
+              if (e.key === "Enter") setIsPostModalOpen(true);
             }}
           >
             <input
@@ -150,12 +168,21 @@ const Home = () => {
         </div>
       </main>
 
-      {/* 모달에 toggleLike 함수 넘김 */}
       {selectedPost && (
         <CommentModal
           post={selectedPost}
           onClose={handleCloseModal}
           toggleLike={toggleLike}
+          commentInput={commentInput}
+          handleCommentChange={handleCommentChange}
+          handleCommentSubmit={handleCommentSubmit}
+        />
+      )}
+
+      {isPostModalOpen && (
+        <NewPostModal
+          onClose={() => setIsPostModalOpen(false)}
+          onSubmit={handlePostSubmit}
         />
       )}
     </div>
