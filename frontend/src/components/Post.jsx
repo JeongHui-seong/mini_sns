@@ -24,6 +24,7 @@ const Post = ({
         </div>
       </div>
 
+
       <img src={post.img} alt="게시물 이미지" className="post-image" />
 
       <div className="post-actions">
@@ -35,7 +36,7 @@ const Post = ({
           {post.liked ? <FaHeart color="red" /> : <FaRegHeart color="black" />}
         </span>
         <span style={{ cursor: "pointer", marginLeft: "10px" }} aria-label="댓글 버튼">
-          <FaRegComment />
+          <FaRegComment onClick={() => openCommentModal(post)} />
         </span>
       </div>
 
