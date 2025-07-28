@@ -2,6 +2,7 @@ package com.mini_sns.backend.service;
 
 import java.time.LocalDateTime;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,19 @@ public class MemberService {
 
   public boolean emailExists(String email) {
     return memberRepository.existsByEmail(email);
+  }
+
+  public MemberDto getCurrentMember() {
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    Member member = memberRepository.findByEmail(email).orElseThrow(
+      () -> new IllegalArgumentException("회원이 존재하지 않습니다.")
+    );
+
+    MemberDto dto = new MemberDto();
+    dto.setEmail(member.getEmail());
+    dto.setNickname(member.getUsername());
+    dto.setPassword(null);
+    return dto;
   }
 }

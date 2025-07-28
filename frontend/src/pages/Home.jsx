@@ -1,5 +1,6 @@
 // Home.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FaPen } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
@@ -7,52 +8,50 @@ import CommentModal from "../components/CommentModal";
 import NewPostModal from "../components/NewPostModal";
 import "./Home.css";
 
-const loggedInUser = {
-  name: "안정민",
-  followers: 26,
-  following: 26,
-  posts: 10,
-  followerList: ["혜미", "정다은", "혜삔"],
-  followingList: ["혜미", "정다은", "혜삔"],
-};
-
-const allPosts = [
-  {
-    id: 1,
-    user: "혜미",
-    date: "2025년 7월 21일 8시 10분",
-    img: "/src/assets/img/KakaoTalk_20250720_235020213.jpg",
-    liked: true,
-    likeCount: 2195,
-    text:
-      "#버거킹(Burger King)이 닌자를 위한 버거를 제조하기 위해 주간 소년 점프에 연재된 닌자 무협 만화 #나루토(NARUTO)와 협업해 나루토 킹 주니어 밀을 일부 아시아 지역에 출시했습니다....",
-    comments: [
-      { id: 1, user: "안정민", text: "정말 멋진 협업이네요!" },
-      { id: 2, user: "혜삔", text: "맛있어 보여요~" },
-    ],
-  },
-  {
-    id: 2,
-    user: "혜삔",
-    date: "2025년 7월 20일 10시 15분",
-    img: "/src/assets/img/KakaoTalk_20250720_235014657.jpg",
-    liked: false,
-    likeCount: 1,
-    text: "ㅋ! 💪",
-    comments: [],
-  },
-];
+// const allPosts = [
+//   {
+//     id: 1,
+//     user: "혜미",
+//     date: "2025년 7월 21일 8시 10분",
+//     img: "/src/assets/img/KakaoTalk_20250720_235020213.jpg",
+//     liked: true,
+//     likeCount: 2195,
+//     text:
+//       "#버거킹(Burger King)이 닌자를 위한 버거를 제조하기 위해 주간 소년 점프에 연재된 닌자 무협 만화 #나루토(NARUTO)와 협업해 나루토 킹 주니어 밀을 일부 아시아 지역에 출시했습니다....",
+//     comments: [
+//       { id: 1, user: "안정민", text: "정말 멋진 협업이네요!" },
+//       { id: 2, user: "혜삔", text: "맛있어 보여요~" },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     user: "혜삔",
+//     date: "2025년 7월 20일 10시 15분",
+//     img: "/src/assets/img/KakaoTalk_20250720_235014657.jpg",
+//     liked: false,
+//     likeCount: 1,
+//     text: "ㅋ! 💪",
+//     comments: [],
+//   },
+// ];
 
 const Home = () => {
+  const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState("posts");
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-
-  const filteredPosts = allPosts.filter((post) =>
-    loggedInUser.followingList.includes(post.user)
-  );
-  const [posts, setPosts] = useState(filteredPosts);
+  const [posts, setPosts] = useState([]);
   const [commentInput, setCommentInput] = useState({});
   const [selectedPostId, setSelectedPostId] = useState(null);
+
+  // const loggedInUser = {
+  //   name: "안정민",
+  //   followers: 26,
+  //   following: 26,
+  //   posts: 10,
+  //   followerList: ["혜미", "정다은", "혜삔"],
+  //   followingList: ["혜미", "정다은", "혜삔"],
+  // };
+
   const selectedPost = posts.find((post) => post.id === selectedPostId);
 
   const handleOpenModal = (post) => {
@@ -83,7 +82,7 @@ const Home = () => {
 
   const handleCommentSubmit = (postId) => {
     const input = commentInput[postId]?.trim();
-    if (!input) return;
+    if (!input || !user) return;
 
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -92,7 +91,7 @@ const Home = () => {
               ...post,
               comments: [
                 ...post.comments,
-                { id: Date.now(), user: loggedInUser.name, text: input },
+                { id: Date.now(), user: user.name, text: input },
               ],
             }
           : post
@@ -102,9 +101,11 @@ const Home = () => {
   };
 
   const handlePostSubmit = ({ text, file }) => {
+    if (!user) return;
+
     const newPost = {
       id: Date.now(),
-      user: loggedInUser.name,
+      user: user.name,
       date: new Date().toLocaleString("ko-KR", {
         year: "numeric",
         month: "long",
@@ -121,13 +122,37 @@ const Home = () => {
     setPosts((prev) => [newPost, ...prev]);
   };
 
+  useEffect(() => {
+    axios.get("/api/board")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("게시물 로드 실패:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get("/api/member/me")
+      .then((response) => {
+        setUser({
+          name: response.data.nickname,
+          followers: response.data.followers || 0,
+          following: response.data.following || 0,
+          posts: response.data.posts || 0
+        });
+      })
+      .catch((error) => {
+        console.error("사용자 정보 로드 실패:", error);
+      });
+  }, []);
+
   return (
     <div className="app-wrapper">
       <Sidebar
-        user={loggedInUser}
+        user={user}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        hasPosts={posts.length > 0}
       />
 
       <main className="home-container">
