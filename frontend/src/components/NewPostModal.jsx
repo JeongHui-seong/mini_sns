@@ -83,7 +83,7 @@ const NewPostModal = ({ onClose, onSubmit }) => {
               <img src={URL.createObjectURL(image)} alt="preview" />
             </div>
             <textarea
-              placeholder="문구 입력..."
+              placeholder="내용을 작성해주세요"
               value={text}
               onChange={(e) => setText(e.target.value)}
             />

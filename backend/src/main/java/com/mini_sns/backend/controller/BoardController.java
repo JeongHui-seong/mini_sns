@@ -50,14 +50,14 @@ public class BoardController {
     }
 
     // 게시글 작성
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping
-    public ResponseEntity<Board> createBoard(@RequestBody String content,
-                                             Principal principal) {
-        Member member = memberService.getMember(principal.getName());
-        Board createdBoard = boardService.createBoard(content, null, member);
-        return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
-    }
+    // @PreAuthorize("isAuthenticated()")
+    // @PostMapping
+    // public ResponseEntity<Board> createBoard(@RequestBody String content,
+    //                                          Principal principal) {
+    //     Member member = memberService.getMember(principal.getName());
+    //     Board createdBoard = boardService.createBoard(content, null, member);
+    //     return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
+    // }
 
     // 게시글 수정
     @PreAuthorize("isAuthenticated()")

@@ -1,11 +1,12 @@
 // Home.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { FaPen } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
 import CommentModal from "../components/CommentModal";
 import NewPostModal from "../components/NewPostModal";
+import { AuthContext } from "../contexts/AuthContext";
 import "./Home.css";
 
 const allPosts = [
@@ -36,26 +37,48 @@ const allPosts = [
 ];
 
 const Home = () => {
+  const { user, setUser } = useContext(AuthContext);
   
-  const loggedInUser = {
-    // name: "안정민",
-    followerList: ["혜미", "정다은", "혜삔"],
-    followingList: ["혜미", "정다은", "혜삔"],
-    posts: 10
-  };
-
-  const [user, setUser] = useState(loggedInUser);
   const [activeTab, setActiveTab] = useState("posts");
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-
-  const filteredPosts = allPosts.filter((post) =>
-    user.followingList.includes(post.user)
-  );
-
-  const [posts, setPosts] = useState(filteredPosts);
+  const [posts, setPosts] = useState([]);
   const [commentInput, setCommentInput] = useState({});
   const [selectedPostId, setSelectedPostId] = useState(null);
 
+  // 사용자가 로그인되어 있고, 추가 정보가 없다면 설정
+  useEffect(() => {
+    if (user && !user.followerList) {
+      setUser({
+        ...user,
+        followerList: ["혜미", "정다은", "혜삔"],
+        followingList: ["혜미", "정다은", "혜삔"],
+        posts: 10
+      });
+    }
+  }, [user, setUser]);
+
+  // 게시물 데이터 로드
+  useEffect(() => {
+    axios.get("/api/board")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("게시물 로드 실패:", error);
+        // API 실패시 더미 데이터 사용
+        if (user?.followingList) {
+          const filteredPosts = allPosts.filter((post) =>
+            user.followingList.includes(post.user)
+          );
+          setPosts(filteredPosts);
+        }
+      });
+  }, [user?.followingList]);
+
+  // 로그인하지 않은 경우 처리
+  if (!user) {
+    return <div>로그인이 필요합니다.</div>;
+  }
 
   const selectedPost = posts.find((post) => post.id === selectedPostId);
 
@@ -126,31 +149,6 @@ const Home = () => {
     };
     setPosts((prev) => [newPost, ...prev]);
   };
-
-  useEffect(() => {
-    axios.get("/api/board")
-      .then((response) => {
-        setPosts(response.data);
-      })
-      .catch((error) => {
-        console.error("게시물 로드 실패:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios.get("/api/member/me")
-      .then((response) => {
-        setUser({
-          name: response.data.nickname,
-          followersList: [],
-          followingList: [],
-          posts: 0
-        });
-      })
-      .catch((error) => {
-        console.error("사용자 정보 로드 실패:", error);
-      });
-  }, []);
 
   return (
     <div className="app-wrapper">
